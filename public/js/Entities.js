@@ -65,10 +65,13 @@ class Player extends Entity {
       delay: 1000,
       callback: function() {
         this.scene.scene.start("SceneGameOver");
+        
       },
       callbackScope: this,
       loop: false
+      
     });
+    
   }
 
   update() {
@@ -142,6 +145,7 @@ class Chaser extends Entity {
           Math.cos(angle) * speed,
           Math.sin(angle) * speed
         );
+        
       }
     }
   }
@@ -175,10 +179,9 @@ class Shooter extends Entity {
     if (this.shootTimer !== undefined) {
       if (this.shootTimer) {
         this.shootTimer.remove(false);
-      }
+     }
     }
-  }
-  
+   }
 }
 
 class MotherShip extends Entity {

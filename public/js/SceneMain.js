@@ -5,31 +5,27 @@ class SceneMain extends Phaser.Scene {
   
   preload() {
 
-    this.load.image('Ship', '/content/ship.png');
-    this.load.image('Space2', '/content/space2.jpg');
-    this.load.image('Laser', '/content/laser.png');
-    this.load.image('LaserRed', '/content/laserRed.png');        
-    this.load.image('Enemy1', '/content/enemy1.png')
-    this.load.image('Enemy2', '/content/enemy2.png')
-    this.load.image('Enemy3', '/content/enemy3.png')
-    this.load.audio('Music1',['content/StarLight.ogg'])
-    this.load.audio('sndLaser',['content/laserfire01.ogg'])
-    this.load.spritesheet("ExplosionAnim", "content/ExplosionAnim.png", {
-      frameWidth: 32,
-      frameHeight: 32
-    });
     
-     this.load.image("sprLaserEnemy0", "content/sprLaserEnemy0.png");
-     this.load.image("sprLaserPlayer", "content/sprLaserPlayer.png");
-    
-
-    this.load.audio("sndExplode0", "content/sndExplode0.mp3");
-    this.load.audio("sndExplode1", "content/sndExplode1.mp3");
    
   }
 
   create() {
-   
+     
+
+    
+    
+
+    this.soundFX = this.sound.add("Music2", {loop: "true", volume: 0.4});
+    this.sound.pauseOnBlur = false;
+    this.soundFX.play()
+
+    this.input.keyboard.on("keydown_M", event => {
+      if(this.soundFX.isPlaying){
+          this.soundFX.pause()
+      }
+      else {this.soundFX.resume()}
+     })
+
     this.anims.create({
       key: "ExplosionAnim",
       frames: this.anims.generateFrameNumbers("ExplosionAnim"),
@@ -47,6 +43,21 @@ class SceneMain extends Phaser.Scene {
 
     this.image = this.add.image(0, 0, 'Space2').setScale(0.50).setOrigin(0);
 
+
+    var score = 0;
+    var scoreText;
+    
+
+     scoreText = this.add.text(16,16, "Score: 0", {
+       fontFamily: 'monospace',
+       fontSize: 48,
+       fontStyle: 'bold',
+       color: '#ffffff',
+       align: 'center'
+     });
+     scoreText.setOrigin(0);
+
+         
     
     this.player = new Player(
       this,
@@ -112,7 +123,10 @@ class SceneMain extends Phaser.Scene {
         }
         enemy.explode(true);
         playerLaser.destroy();
+        score += 100;
+        scoreText.setText('Score: ' + score);
       }
+         
     });
 
     this.physics.add.overlap(this.player, this.enemies, function(player, enemy) {
@@ -120,8 +134,10 @@ class SceneMain extends Phaser.Scene {
           !enemy.getData("isDead")) {
         player.explode(false);
         player.onDestroy();
+        
         enemy.explode(true);
       }
+      
     });
 
     this.physics.add.overlap(this.player, this.enemyLasers, function(player, laser) {
@@ -132,6 +148,7 @@ class SceneMain extends Phaser.Scene {
         laser.destroy();
       }
     });
+
   }
 
   getEnemiesByType(type) {
@@ -145,7 +162,9 @@ class SceneMain extends Phaser.Scene {
     return arr;
   }
 
-  update() {
+  update(delta) {
+
+    
 
     if (!this.player.getData("isDead")) {
       this.player.update();

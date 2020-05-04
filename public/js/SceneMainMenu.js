@@ -6,7 +6,29 @@ class SceneMainMenu extends Phaser.Scene {
     preload() {
       this.load.image('Space', '/content/space.png');
       this.load.audio('Music1','content/StarLight.ogg')
-    }
+      this.load.image('Ship', '/content/ship.png');
+      this.load.image('Space2', '/content/space2.jpg');
+      this.load.image('Space1', '/content/space1.jpg');
+      this.load.image('Laser', '/content/laser.png');
+      this.load.image('LaserRed', '/content/laserRed.png');        
+      this.load.image('Enemy1', '/content/enemy1.png')
+      this.load.image('Enemy2', '/content/enemy2.png')
+      this.load.image('Enemy3', '/content/enemy3.png')
+      this.load.audio('Music2',['content/OrbitalColossus.mp3'])
+      this.load.audio('Music3',['content/MusicBoxGame OverIII.mp3'])
+      this.load.audio('sndLaser',['content/laserfire01.ogg'])
+      this.load.spritesheet("ExplosionAnim", "content/ExplosionAnim.png", {
+        frameWidth: 32,
+        frameHeight: 32
+      });
+    
+      this.load.image("sprLaserEnemy0", "content/sprLaserEnemy0.png");
+      this.load.image("sprLaserPlayer", "content/sprLaserPlayer.png");
+    
+
+      this.load.audio("sndExplode0", "content/sndExplode0.mp3");
+      this.load.audio("sndExplode1", "content/sndExplode1.mp3");
+      }
   
     create() {
 
@@ -27,7 +49,7 @@ class SceneMainMenu extends Phaser.Scene {
 
       
   
-      this.btnPlay = this.add.text(
+      this.start = this.add.text(
         this.game.config.width * 0.5,
         this.game.config.height * 0.5,
         "Press 1 to start", {
@@ -38,7 +60,7 @@ class SceneMainMenu extends Phaser.Scene {
           align: 'center'
         }
       );
-      this.btnPlay.setOrigin(0.5);
+      this.start.setOrigin(0.5);
   
         
       this.title = this.add.text(this.game.config.width * 0.5, 128, "JOURNEY TO LETHAMYR", {
@@ -57,6 +79,7 @@ class SceneMainMenu extends Phaser.Scene {
     update(delta){
       if(this.key_1.isDown){
           this.scene.start("SceneMain");
+          this.soundFX.stop();
           
       } 
   }
