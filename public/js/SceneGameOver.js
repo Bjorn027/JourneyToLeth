@@ -11,9 +11,9 @@ class SceneGameOver extends Phaser.Scene {
 
       this.image = this.add.image(0, 0, 'Space1').setOrigin(0).setScale(.45);
   
-      this.title = this.add.text(this.game.config.width * 0.5, 128, "GAME OVER", {
+      this.title = this.add.text(this.game.config.width * 0.5, this.game.config.width * 0.15, "GAME OVER", {
         fontFamily: 'monospace',
-        fontSize: 48,
+        fontSize: 60,
         fontStyle: 'bold',
         color: '#ffffff',
         align: 'center'
@@ -21,31 +21,27 @@ class SceneGameOver extends Phaser.Scene {
       this.title.setOrigin(0.5);
       
       
-      this.restart = this.add.text(
-        this.game.config.width * 0.5,
-        this.game.config.height * 0.5,
-        "Back to Main Menu Press 2", {
-          fontFamily: 'monospace',
-          fontSize: 30,
-          fontStyle: 'bold',
-          color: '#ffffff',
-          align: 'center'
-        }
+      this.quit = this.add.image(
+        this.game.config.width *0.5,
+        this.game.config.height *0.5,
+        "QuitButton"
       );
-      this.restart.setOrigin(0.5);
+      this.quit.setInteractive();
 
-      this.key_2 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO);
+      this.quit.on("pointerover", function(){
+        this.quit.setTexture("QuitButtonHover")
+      }, this);
 
-  
+      this.quit.on("pointerout", function(){
+        this.setTexture("QuitButton");
+      });
+
+      this.quit.on("pointerup", function() {
+        this.scene.start("SceneMainMenu");
+      }, this);
+
+       
       
   }
-  update(delta){
-
-    if(this.key_2.isDown){
-     
-      this.scene.start("SceneMainMenu");
-      
-  }
- }
 }
   

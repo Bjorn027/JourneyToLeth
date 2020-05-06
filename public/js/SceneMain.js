@@ -43,11 +43,9 @@ class SceneMain extends Phaser.Scene {
 
     this.image = this.add.image(0, 0, 'Space2').setScale(0.50).setOrigin(0);
 
-
     var score = 0;
     var scoreText;
     
-
      scoreText = this.add.text(16,16, "Score: 0", {
        fontFamily: 'monospace',
        fontSize: 48,
@@ -188,6 +186,9 @@ class SceneMain extends Phaser.Scene {
         this.player.setData("timerShootTick", this.player.getData("timerShootDelay") - 1);
         this.player.setData("isShooting", false);
       }
+      this.image.on("pointerdown", function(){
+        this.player.setData("isShooting", true);
+      })
     }
 
     for (var i = 0; i < this.enemies.getChildren().length; i++) {

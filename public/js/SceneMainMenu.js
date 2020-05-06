@@ -28,7 +28,12 @@ class SceneMainMenu extends Phaser.Scene {
 
       this.load.audio("sndExplode0", "content/sndExplode0.mp3");
       this.load.audio("sndExplode1", "content/sndExplode1.mp3");
+      this.load.image('PlayButtonHover', 'content/PlayButtonHover.png');
+      this.load.image('PlayButton', 'content/PlayButton.png');
+      this.load.image('QuitButtonHover', 'content/QuitButtonHover.png');
+      this.load.image('QuitButton', 'content/QuitButton.png');
       }
+      
   
     create() {
 
@@ -49,39 +54,63 @@ class SceneMainMenu extends Phaser.Scene {
 
       
   
-      this.start = this.add.text(
-        this.game.config.width * 0.5,
-        this.game.config.height * 0.5,
-        "Press 1 to start", {
+      this.start = this.add.image(
+        this.game.config.width *0.5,
+        this.game.config.height *0.5,
+        "PlayButton"
+      );
+      this.start.setInteractive();
+
+      this.start.on("pointerover", function(){
+        this.start.setTexture("PlayButtonHover")
+      }, this);
+
+      this.start.on("pointerout", function(){
+        this.setTexture("PlayButton");
+      });
+
+      this.start.on("pointerup", function() {
+        this.scene.start("SceneMain");
+        this.soundFX.stop();
+      }, this);
+
+      
+
+      this.controls = this.add.text(
+        this.game.config.width * 0.05,
+        this.game.config.height * 0.85,
+        "Move Ship - [W][A][S][D]\n\nFire Laser - [Enter]", {
           fontFamily: 'monospace',
-          fontSize: 30,
+          fontSize: 20,
           fontStyle: 'bold',
-          color: '#ffffff',
-          align: 'center'
+          color: '#ffffff'          
         }
       );
-      this.start.setOrigin(0.5);
+
+      this.controls2 = this.add.text(
+        this.game.config.width * 0.80,
+        this.game.config.height * 0.88,
+        "Toggle Music - [M]", {
+          fontFamily: 'monospace',
+          fontSize: 20,
+          fontStyle: 'bold',
+          color: '#ffffff'          
+        }
+      );
+      
   
         
-      this.title = this.add.text(this.game.config.width * 0.5, 128, "JOURNEY TO LETHAMYR", {
+      this.title = this.add.text(this.game.config.width * 0.5, this.game.config.width * 0.15, "JOURNEY TO LETHAMYR", {
         fontFamily: 'monospace',
-        fontSize: 48,
+        fontSize: 60,
         fontStyle: 'bold',
         color: '#ffffff',
         align: 'center'
       });
       this.title.setOrigin(0.5);
       
-      this.key_1 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE);
+      
 
       
     }
-    update(delta){
-      if(this.key_1.isDown){
-          this.scene.start("SceneMain");
-          this.soundFX.stop();
-          
-      } 
-  }
-      
   }
